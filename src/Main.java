@@ -1,89 +1,84 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
 
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
         Scanner input = new Scanner(System.in);
-        Library library = new Library();
 
-        int choice;
+        int choice = 0;
 
-        do {
-
-            System.out.println("\n========== LIBRARY INFORMATION SYSTEM ==========");
-            System.out.println("1. Add a Book");
-            System.out.println("2. List All Books");
-            System.out.println("3. Borrow a Book");
-            System.out.println("4. Return a Book");
-            System.out.println("5. Search a Book");
-            System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
+        while (choice != 5) {
+            System.out.println();
+            System.out.println("===== VEHICLE MANAGER =====");
+            System.out.println("1 - Add Car");
+            System.out.println("2 - Add Motorcycle");
+            System.out.println("3 - Remove a Vehicle");
+            System.out.println("4 - Display All Vehicles");
+            System.out.println("5 - Exit");
+            System.out.print("Choose an option: ");
 
             choice = input.nextInt();
             input.nextLine();
 
-            switch (choice) {
+            if (choice == 1) {
+                System.out.print("Brand: ");
+                String brand = input.nextLine();
 
-                case 1:
+                System.out.print("Year: ");
+                int year = input.nextInt();
 
-                    System.out.print("Enter book title: ");
-                    String title = input.nextLine();
+                System.out.print("Number of doors: ");
+                int doors = input.nextInt();
 
-                    System.out.print("Enter author: ");
-                    String author = input.nextLine();
+                vehicles.add(new Car(brand, year, doors));
 
-                    Book newBook = new Book(title, author);
-                    library.addBook(newBook);
-
-                    break;
-
-                case 2:
-
-                    library.listBooks();
-
-                    break;
-
-                case 3:
-
-                    System.out.print("Enter book title to borrow: ");
-                    title = input.nextLine();
-
-                    library.borrowBook(title);
-
-                    break;
-
-                case 4:
-
-                    System.out.print("Enter book title to return: ");
-                    title = input.nextLine();
-
-                    library.returnBook(title);
-
-                    break;
-
-                case 5:
-
-                    System.out.print("Enter book title to search: ");
-                    title = input.nextLine();
-
-                    library.searchBook(title);
-
-                    break;
-
-                case 0:
-
-                    System.out.println("Thank you for using the Library Information System!");
-
-                    break;
-
-                default:
-
-                    System.out.println("Invalid choice. Please try again.");
+                System.out.println(">> Car added!");
             }
 
-        } while (choice != 0);
+            else if (choice == 2) {
+                System.out.print("Brand: ");
+                String brand = input.nextLine();
 
+                System.out.print("Year: ");
+                int year = input.nextInt();
+
+                System.out.print("Has sidecar? (true/false): ");
+                boolean sidecar = input.nextBoolean();
+
+                vehicles.add(new Motorcycle(brand, year, sidecar));
+
+                System.out.println(">> Motorcycle added!");
+            }
+
+            else if (choice == 3) {
+                System.out.print("Enter the number to remove: ");
+                int number = input.nextInt();
+
+                if (number >= 1 && number <= vehicles.size()) {
+                    vehicles.remove(number - 1);
+                    System.out.println(">> Removed!");
+                } else {
+                    System.out.println(">> Invalid number.");
+                }
+            }
+
+            else if (choice == 4) {
+                System.out.println("--- All Vehicles ---");
+
+                if (vehicles.isEmpty()) {
+                    System.out.println("(none yet)");
+                }
+
+                for (int i = 0; i < vehicles.size(); i++) {
+                    System.out.print((i + 1) + ". ");
+                    vehicles.get(i).displayInfo();
+                }
+            }
+        }
+
+        System.out.println("Goodbye!");
         input.close();
     }
 }
